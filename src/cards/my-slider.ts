@@ -28,11 +28,12 @@ import { objectEvalTemplate } from '../scripts/templating'
 
 /* eslint no-console: 0 */
 console.info(
-    `%c  ---- MY-SLIDER-V2 ---- \n%c  ${localize('common.version')} ${SLIDER_VERSION}    `,
-    'color: orange; font-weight: bold; background: black',
-    'color: white; font-weight: bold; background: green',
-);
+    `%c  MMY-SLIDER-V2 (mod for CB-LCARS)  \n%c ${localize('common.version')} ${SLIDER_VERSION}  `,
+    'color: white; font-weight: bold; background: #37a6d1',
+    'color: white; font-weight: bold; background: #37a6d1',
+  );
 
+  /*
 // This puts your card into the UI card picker dialog
 (window as any).customCards = (window as any).customCards || [];
 (window as any).customCards.push({
@@ -40,8 +41,8 @@ console.info(
     name: 'Slider Card V2',
     description: 'Custom Slider Card V2 for Lovelace.',
 });
-
-@customElement('my-slider-v2')
+*/
+@customElement('cblcars-my-slider-v2')
 export class MySliderV2 extends LitElement {
     @property() private _config?: MySliderConfig
     private entity: HassEntity | undefined
@@ -261,7 +262,7 @@ export class MySliderV2 extends LitElement {
 
         const stopInput = (event) => {
             if (!this.actionTaken) return
-            
+
             const progressEl: HTMLElement | null = this.sliderEl!.querySelector('.my-slider-custom-progress')
             progressEl!.style.transition = this.initialTransition
 
@@ -324,7 +325,7 @@ export class MySliderV2 extends LitElement {
                     @mousemove="${sliderHandler}"
                     @touchstart="${sliderHandler}"
                     @touchend="${sliderHandler}"
-                    @touchcancel="${sliderHandler}" 
+                    @touchcancel="${sliderHandler}"
                     @touchmove="${sliderHandler}"
                 >
                     <div class="my-slider-custom-track" style="${styleMap(trackStl)}">
@@ -461,7 +462,7 @@ export class MySliderV2 extends LitElement {
                 defaultConfig.step = this._config!.step ? this._config!.step : this.entity.attributes.step
                 defaultConfig.min = this._config!.min ? this._config!.min : this.entity.attributes.min
                 defaultConfig.max = this._config!.max ? this._config!.max : this.entity.attributes.max
-                
+
                 this.oldVal = parseFloat(this.entity.state)
                 tmpVal = parseFloat(this.entity.state)
                 if (!defaultConfig.showMin && defaultConfig.min) { // Subtracting savedMin to make slider 0 be far left
@@ -504,7 +505,7 @@ export class MySliderV2 extends LitElement {
                 tmpVal = (tmpVal * (100 - defaultConfig.sliderMin) / 100) + defaultConfig.sliderMin
                 tmpVal = tmpVal < defaultConfig.sliderMin ? defaultConfig.sliderMin : tmpVal
                 this.oldVal = tmpVal
-                
+
                 sliderVal1 = tmpVal
                 sliderVal2 = roundPercentage(percentage(tmpVal, defaultConfig.max))
 
@@ -528,7 +529,7 @@ export class MySliderV2 extends LitElement {
                     defaultConfig.max = defaultConfig.max - defaultConfig.min
                     tmpVal = tmpVal - defaultConfig.min
                 }
-                
+
                 // Calculate tmpVal based on the inverse logic
                 if (defaultConfig.inverse) {
                     // Inverted logic
@@ -595,7 +596,7 @@ export class MySliderV2 extends LitElement {
 
         this._config = deepMerge(defaultConfig, this._config)
         this.setSliderValues(sliderVal1, sliderVal2, alreadyInversed)
-        
+
         if (defaultConfig.mode === 'seekbar' && this.entity.state === 'playing') {
             this.updateSeekbar()
         }
